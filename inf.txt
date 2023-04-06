@@ -1,0 +1,460 @@
+#define _CRT_SECURE_NO_WARNINGS  
+#include <dos.h>                             
+#include <stdio.h>
+#include <math.h>              
+#include "winbgi2.h" 
+#include <time.h>
+#include <windows.h> 
+
+
+
+#include <iostream>
+#include <cstdlib>
+//////////////////////////////////////////////////////////
+
+
+
+
+void liczenie(int *sx,int *sy,int zzz)
+{
+
+
+	 int k=0;
+
+	for(int i=0;i<1600;i++)
+	{
+		if((sx[i]>0)&&(sy[i]>0)&&(sx[i]<38)&&(sy[i]<38))	k=k+1;
+		
+
+
+
+
+
+
+		
+	}
+
+	printf("tura == %d populacja == %d\n",zzz,k);
+
+
+
+
+
+
+
+
+
+}
+
+
+
+void bord(int *sx,int *sy,int *dx ,int *dy,int N,int *kx,int *ky)
+{
+
+	int ssx1,ssx2,ssx3,ssx4,ssx5,ssx6,ssx7,ssx8;
+	int sx1,sx2,sx3,sx4,sx5,sx6,sx7,sx8;
+	for (int i = 0; i < 1600; i++) {
+		 sx1=0;
+		  sx3=0;
+		 sx4=0;
+		 sx2=0;
+		 sx5=0;
+		  sx6=0;
+		 sx7=0;
+		 sx8=0;
+		 ///////////////////////////////
+		 ssx1=0;
+		  ssx3=0;
+		 ssx4=0;
+		 ssx2=0;
+		 ssx5=0;
+		 ssx6=0;
+		 ssx7=0;
+		 ssx8=0;
+		
+
+		
+		for (int j = 0; j < N; j++) 
+		{
+			
+		if(((sx[i]-sx[j])==1)&&(sy[i]-sy[j]==0)) sx1=sx1+1;
+		if(((sx[i]-sx[j])==-1)&&(sy[i]-sy[j]==0)) sx2=sx2+1;
+		if(((sy[i]-sy[j])==1)&&(sx[i]-sx[j]==0)) sx3=sx3+1;
+		if(((sy[i]-sy[j])==-1)&&(sx[i]-sx[j]==0)) sx4=sx4+1;
+		//////////////////////////////////////////////////////////
+		if(((sy[i]-sy[j])==1)&&(sx[i]-sx[j]==-1)&&(sx[i]!=sx[j])) sx5=sx5+1;
+		if(((sy[i]-sy[j])==-1)&&(sx[i]-sx[j]==-1)&&(sx[i]!=sx[j])) sx6=sx6+1;
+		if(((sy[i]-sy[j])==-1)&&(sx[i]-sx[j]==1)&&(sx[i]!=sx[j])) sx7=sx7+1;
+		if(((sy[i]-sy[j])==1)&&(sx[i]-sx[j]==1)&&(sx[i]!=sx[j])) sx8=sx8+1;
+
+	///////////////////////////////////////////////////////////
+		if(((abs(sx[i])-sx[j])==1)&&(abs(sy[i])-sy[j]==0)) ssx1=ssx1+1;
+		if(((abs(sx[i])-sx[j])==-1)&&(abs(sy[i])-sy[j]==0)) ssx2=ssx2+1;
+		if(((abs(sy[i])-sy[j])==1)&&(abs(sx[i])-sx[j]==0)) ssx3=ssx3+1;
+		if(((abs(sy[i])-sy[j])==-1)&&(abs(sx[i])-sx[j]==0)) ssx4=ssx4+1;
+		//////////////////////////////////////////////////////////
+		if(((abs(sy[i])-sy[j])==1)&&(abs(sx[i])-sx[j]==-1)&&(abs(sx[i])!=sx[j])) ssx5=ssx5+1;
+		if(((abs(sy[i])-sy[j])==-1)&&(abs(sx[i])-sx[j]==-1)&&(abs(sx[i])!=sx[j])) ssx6=ssx6+1;
+		if(((abs(sy[i])-sy[j])==-1)&&(abs(sx[i])-sx[j]==1)&&(abs(sx[i])!=sx[j])) ssx7=ssx7+1;
+		if(((abs(sy[i])-sy[j])==1)&&(abs(sx[i])-sx[j]==1)&&(abs(sx[i])!=sx[j])) ssx8=ssx8+1;
+		}
+	
+		
+
+		if((sx1+sx2+sx3+sx4+sx5+sx6+sx7+sx8>3)||(sx1+sx2+sx3+sx4+sx5+sx6+sx7+sx8<2))
+		{
+			dx[i]=1;
+    dy[i]=1;
+			
+		}
+	if((ssx1+ssx2+ssx3+ssx4+ssx5+ssx6+ssx7+ssx8==3))
+		{
+			dx[i]=2;
+    dy[i]=2;
+			
+		}
+	////////////////////////////////////////
+ }
+		for(int k=0;k<N;k++)
+		{
+				if ((dx[k]==2)&&(sx[k]<0)&&(sx[k]!=-38)&&(sy[k]!=-38)) //wskszeszanie
+			{
+				sx[k]=-sx[k];
+				sy[k]=-sy[k];
+			
+			}
+			if ((dx[k]==1)&&(sx[k]>0)&&(sy[k]>0)&&(sx[k]<39)&&(sy[k]<39))///zabujanie
+			{
+				sx[k]=-sx[k];
+				sy[k]=-sy[k];
+			}
+		}
+}
+
+ ///////////////////////////////////////////////////////////////////////
+void szachownica(int k)
+{for (int z=0;z<21;z++)
+
+{
+line(z,0,z,800);
+line(0,z,800,z);
+line(780-z,0,780-z,780);
+line(0,780-z,780,780-z);
+
+}
+	for(int i=0; i<800;i=i+20)
+{line (i,0,i,780);
+	
+line(0,i,780,i);
+
+}
+	for(int i=0; i<8000;i++)
+{line (i+780,0,i+780,780);
+	
+line(0,i+780,780,i+780);
+
+}
+	
+}
+
+
+void life(int *sx,int *sy,int *kx,int *ky)
+{
+	for (int j=0;j<1600;j++)
+	{
+		for(int i=0;i<21;i++)
+
+{
+	line(sx[j]*20+i,sy[j]*20,sx[j]*20+i,sy[j]*20+i);
+	line(sx[j]*20+i,sy[j]*20+i,sx[j]*20,sy[j]*20+i);
+
+}
+	}}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+void main() {	
+	char poz=219;
+
+	int dl[16000];
+	int szer=38, wys=20;
+	int kx[16000],ky[16000];
+	int dx[16000],dy[16000];
+	int sx[16000],sy[16000];
+	int i,k,x,y,l,ff,z,zzz,w,asd,po;
+	x=20;
+	y=20;
+	zzz=0;
+	po=0;
+
+	for(int i=0;i<1600;i++)
+	{
+		dx[i]=0;
+		dy[i]=0;
+
+	}
+
+
+	l=0;
+for (int k=0;k<39;k++)
+{
+for(int z=0;z<39;z++)
+
+
+{
+	sx[l]=-k;
+	sy[l]=-z;
+	if((sx[l]==0)||(sy[l]==0))
+	{sx[l]=-2000;
+	sy[l]=-2000;
+
+
+	}
+
+	dl[l]=1;
+	l=l+1;
+
+
+}
+
+}
+
+
+printf("GRA W ZYCIE");
+printf("\n");
+printf("\n");
+printf("Zasady \n");
+
+printf("Po przeczytaniu zasad wcisnij 1\n");
+printf("polecam powiekszyc ekran \n");
+printf("Klikajac 1 bedziesz mial mozliwosc wpisywania wsplrzednych\n");
+printf("kolumny i wiersze sa ograniczone od 1 do 37 wlacznie\n");
+printf("po wpisaniu pierwszej wspolrzednej zostanie wyswietlony rysunek pogladowy\n");
+printf("pola usuwa sie poprze wpisanie jesze raz tych samych wpulrzedndych\n");
+printf("wpisujac w miejsce kolumna 0 otwiera sie okno z animacja\n");
+printf("wpisujac w miejsce wiersz 0 otwiera sie okno z animacja ale bez uwzgledniania  tego punktu\n");
+printf("klikajac 2 mozemy wybierac punkty za pomoca myszki \n");
+printf("klikajac drugi raz na ten sam punkt  usuwamy go\n");
+printf("po wybraniu punktow nalerzy kliknac na bialu pasek po prawej w celu wloczenia animacji\n");
+printf("na monitorze jest wyswietlana populacja w zalerznosci od tury\n");
+//////////////
+
+for(;;)
+{
+                              	//wybieranie opcji
+	scanf("%d",&w);
+	if((w==1)||(w==2))break;
+	else 
+		printf("wcisnij 1  \n");
+}
+
+switch(w)
+{
+case 1:
+for(int h=0;h<40000;h++)       //pętla od zapisywania wspolrzednych 
+{
+
+for(;;)
+{
+
+printf ("liczba kolumny -- ");
+scanf("%d",&kx[h]);
+	if((kx[h]>=0)&&(kx[h]<38))break;
+	else 
+		printf("od 1 do 37  \n");
+
+	}
+	if(kx[h]==0){ kx[h]=2000;break;}   //zakonczenie petli
+
+////
+		for(;;)
+{
+printf ("liczba wierszy -- ");
+		
+scanf("%d",&ky[h]);
+	if((ky[h]>=0)&&(ky[h]<38))break;
+	else 
+		printf("od 1 do 37  \n");
+
+	
+	}
+		//////////
+if(ky[h]==0){ ky[h]=2000;break;}
+
+
+system("cls");
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+for(int i=0;i<1600;i++)
+{ po=0;
+			for (int j = 0; j < 1600; j++) 
+		{
+			if((kx[h]==kx[j])&&(ky[h]==ky[j])&&(kx[h]>0)&&(ky[h]>0)&&(kx[j]>0)&&(ky[j]>0))
+			{
+				po=po+1;
+			
+			}
+		}	
+	}
+
+
+for(int i=0;i<1600;i++)
+		{
+if((kx[h]==-sx[i])&&(ky[h]==-sy[i])&&(po%2==1))
+	{
+		sx[i]=-sx[i];
+		sy[i]=-sy[i];
+		dl[i]=0;
+}
+if((kx[h]==sx[i])&&(ky[h]==sy[i])&&(po%2==0))
+	{
+		sx[i]=-sx[i];
+		sy[i]=-sy[i];
+		dl[i]=0;
+}
+}
+
+		int DXD;
+		DXD=0;
+
+		for(int k=0;k<78;k++)
+		{
+		printf("%c",poz);
+		}
+		printf("\n");
+	for(int k=1; k<szer; k++)
+{printf("%c%c",poz,poz);
+		for(int i=1; i<szer; i++)     
+		{DXD=0;
+	for(int xdd=0;xdd<=1600;xdd++)
+		{
+		if(((sx[xdd]==i)&&(sy[xdd]==k)&&(sy[xdd]!=0)&&(sx[xdd]!=0)))
+			{DXD=1;
+
+			}
+
+  	}
+	if (DXD==1) printf("%c%c",poz,poz);
+	if(DXD==0) printf ("[]");
+	
+}
+printf("%c%c %d\n",poz,poz,k);
+	}
+		for(int k=0;k<78;k++)
+		{
+		printf("%c",poz);
+		}
+	printf("\n");
+	printf("  ");
+for(int k=1;k<10;k++)
+		{
+		printf("%d ",k);
+		}
+for(int k=10;k<38;k++)
+		{
+		printf("%d",k);
+		}
+printf("\n");
+}
+graphics(900,790);
+	
+/////////////////
+break;
+		  
+case 2:
+	graphics(900, 790);
+
+	
+	 for(int h=0;h<40000;h++)
+{
+
+	 
+		
+	 szachownica(1);
+	
+if(mousedown()==1)
+{
+
+                                                  //printf(" wsx = %d",mouseclickx());    
+                                                  //printf(" wsx = %d",mouseclicky());
+for(int i=0;i<40;i++)
+{
+if((mouseclickx()>20*i)&&(mouseclickx()<40*i))
+	kx[h]=i;
+}
+
+for(int i=0;i<40;i++)
+{
+if((mouseclicky()>20*i)&&(mouseclicky()<40*i))
+	ky[h]=i;
+}
+
+
+}
+
+for(int i=0;i<1600;i++)
+{ po=0;
+			for (int j = 0; j < 1600; j++) 
+		{
+			if((kx[h]==kx[j])&&(ky[h]==ky[j])&&(kx[h]>0)&&(ky[h]>0)&&(kx[j]>0)&&(ky[j]>0))
+			{
+				po=po+1;
+		
+			}
+		}	
+	}
+
+
+
+if(kx[h]>37) break;
+	 	for(int i=0;i<1521;i++)
+		{
+	if((kx[h]==-sx[i])&&(ky[h]==-sy[i])&&(po%2==1))
+	{
+		sx[i]=-sx[i];
+		sy[i]=-sy[i];
+
+
+
+	}if((kx[h]==sx[i])&&(ky[h]==sy[i])&&(po%2==0))
+	{
+		sx[i]=-sx[i];
+		sy[i]=-sy[i];
+	
+	
+
+	}
+		}
+		
+	  life(sx,sy,kx,ky);
+	  Sleep(100);
+	  
+ clear();
+	
+	 }
+
+	
+	
+	break;
+}
+system("cls");
+
+for(;;)
+	{
+		zzz=zzz+1;
+
+	 szachownica(1);
+	 
+
+ life(sx,sy,kx,ky);
+ Sleep(1000);
+ 
+ liczenie(sx,sy,zzz);
+
+ clear();
+
+bord(sx,sy,dx,dy,1600,kx,ky);
+
+}
+
+///////////////////////////////////////////////////////
+ wait();
+
+}
